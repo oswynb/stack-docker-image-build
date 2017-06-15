@@ -70,16 +70,6 @@ main = do
 
     globaldb <- getDBDir "global"
     forM_ (words "snapshot local") $ \typ -> do
-        bindir <- getBinDir typ
-        bindirexists <- doesDirectoryExist bindir
-        bincontents <- if bindirexists then getDirectoryContents bindir else return []
-        forM_ bincontents $ \file -> do
-            let fp = bindir </> file
-            exists <- doesFileExist fp
-            when exists $ do
-                putStrLn $ "Linking " ++ fp
-                runProcess_ $ proc "ln" [fp, "/usr/local/bin" </> file]
-
         dbdir <- getDBDir typ
         dbdirexists <- doesDirectoryExist dbdir
         dbcontents <- if dbdirexists then getDirectoryContents dbdir else return []
